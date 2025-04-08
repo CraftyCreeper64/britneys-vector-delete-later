@@ -25,6 +25,7 @@ int main() {
     Vector c(0, nullptr);
     Vector d(2, d3);
     Vector e(3, d4);
+    Vector f = -a;
 
     Test(a.ToString() == "[1, 2, 4]", "ToString");
     c = a.Sum(b);
@@ -38,6 +39,8 @@ int main() {
     Test(a.Equals(e), "Equals");
     Test(!a.Equals(d), "Equals");
     Test(DoubleEquals(a.Distance(b), 6.4031), "Distance");
+    Test(f.ToString() == "[-1, -2, -4]", "Invert");
+    Test((b * 7).ToString() == "[35, -7, 0]", "Multiply");
     return 0;
 }
 
