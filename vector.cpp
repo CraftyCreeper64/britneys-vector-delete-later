@@ -6,13 +6,20 @@
 
 #include <cmath>
 #include <sstream>
+#include <vector>
 
 using std::stringstream;
-
+//made this cus it was annoying not having it
 Vector::Vector(size_t size, double *data): _size(size) {
     _data = new double[_size];
     for (int i = 0; i < _size; ++i) {
         _data[i] = data[i];
+    }
+}
+Vector::Vector(size_t size): _size(size) {
+    _data = new double[_size];
+    for (int i = 0; i < _size; ++i) {
+        _data[i] = 0.0;
     }
 }
 
@@ -37,6 +44,31 @@ const Vector &Vector::operator=(const Vector &rhs) {
     return *this;
 }
 
+//my two methods
+const Vector Vector::operator-() const {
+    Vector temp(_size, _data);
+    for (int i = 0; i < _size; ++i) {
+        temp._data[i] = -_data[i];
+    }
+    return temp;
+}
+
+Vector Vector::operator*(double val) const {
+    double* newData = new double[_size];
+    for (size_t i = 0; i < _size; ++i) {
+        newData[i] = _data[i] * val;
+    }
+    Vector result(_size);
+    for (int i = 0; i < _size; ++i) {
+        result._data[i] = newData[i];
+    }
+    delete[] newData;
+    return result;
+}
+
+
+
+
 double Vector::DotProduct(const Vector &rhs) const {
     double retVal = 0;
     if (_size != rhs._size)
@@ -44,7 +76,7 @@ double Vector::DotProduct(const Vector &rhs) const {
     for (int i = 0; i < _size; ++i) {
         retVal += _data[i] * rhs._data[i];
     }
-    return 0;
+    return retVal;
 }
 
 const Vector Vector::Sum(const Vector &rhs) const {
@@ -64,7 +96,7 @@ const Vector Vector::Sub(const Vector &rhs) const {
         exit(1);
     double* tmp = new double[_size];
     for (int i = 0; i <_size; ++i) {
-        tmp[i] = _data[i] + rhs._data[i];
+        tmp[i] = _data[i] - rhs._data[i];
     }
     Vector retVal(_size, tmp);
     delete[] tmp;
@@ -74,7 +106,7 @@ const Vector Vector::Sub(const Vector &rhs) const {
 const Vector Vector::ScalarMultiplication(double value) const {
     Vector retVal(_size, _data);
     for (int i = 0; i < _size; ++i) {
-        retVal._data[i] *= -1;
+        retVal._data[i] *= value;
     }
     return retVal;
 }
